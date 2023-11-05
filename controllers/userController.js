@@ -121,9 +121,7 @@ const fs = require('fs');
 
 //   // 7. Delete the user himself
   const userDelete = await User.findByIdAndDelete(req.params.id);
-  console.log('====================================');
-  console.log(userDelete);
-  console.log('====================================');
+
 
 //   // 8. Send a response to the client
   res.status(200).json({ message: "your profile has been deleted" });

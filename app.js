@@ -15,10 +15,12 @@ const app = express();
 
 // Meddlewares:
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Routers:
 app.use("/api/auth", require("./routers/authRouter"));
 app.use("/api/users", require("./routers/usersRouter"));
+app.use("/api/posts", require("./routers/postRouter"));
 
 //Runing The Services:
 app.listen(process.env.PORT,(req,res)=>{
