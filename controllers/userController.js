@@ -43,8 +43,7 @@ const fs = require('fs');
  * @access  private (Only Admin)
  ------------------------------------------------*/
  const getOneUserCtrl = asyncHandler (async (req,res,next)=>{
-   const user = await User.findById(req.params.id).select("-password");
-
+   const user = await User.findById(req.params.id).select("-password").populate("posts");
   if (!user) {
     return res.status(404).json({ message: "User Not Found" });
   }

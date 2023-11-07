@@ -9,7 +9,8 @@ const {
     getCountPostsCtrl,
     deletePostsCtrl,
     updatePostsCtrl,
-    updatePostImageCtrl} = require("../controllers/postController");
+    updatePostImageCtrl,
+    toggleLikeCtrl} = require("../controllers/postController");
 const router = express.Router();
 
 
@@ -30,5 +31,9 @@ router.route("/:id")
 
 // /api/posts/update-image/:id
 router.route("/update-image/:id").put(validateObjectId, verifyToken, photoUpload.single("image"), updatePostImageCtrl);
+
+
+// /api/posts/like/:id
+router.route("/like/:id").put(validateObjectId,verifyToken,toggleLikeCtrl);
 
 module.exports = router;

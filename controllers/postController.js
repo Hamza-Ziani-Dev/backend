@@ -4,6 +4,7 @@ const fs = require("fs");
 const {Post,validateCreatePost, validateUpdatePost} = require("../models/Post");
 const {User} = require('../models/User');
 const {cloudinaryUploadImage, cloudinaryRemoveImage,} = require("../utils/cloudinary");
+const {Comment} = require('../models/Comment');
 
 
   /**-----------------------------------------------
@@ -89,7 +90,7 @@ const getAllPostsCtrl = asyncHandler(async (req, res) => {
  * @access  public
  ------------------------------------------------*/
  const getOnePostsCtrl = asyncHandler(async (req, res) => {
-  const posts = await Post.findById(req.params.id).populate("user", ["-password"]);
+  const posts = await Post.findById(req.params.id).populate("user", ["-password"]).populate('comments');
   if(!posts){
     res.status(404).json({ message: "Post Not Found!"})
   }
@@ -124,7 +125,10 @@ const getAllPostsCtrl = asyncHandler(async (req, res) => {
     await Post.findByIdAndDelete(req.params.id);
     await cloudinaryRemoveImage(post.image.publicId);
 
-    //@TODO delete All Comments:
+    // delete All Comments:
+    await Comment.deleteMany({post_id : req.params.id });
+
+
 
   res.status(200).json({
     postId:post._id,
@@ -233,6 +237,46 @@ const updatePostImageCtrl = asyncHandler(async (req, res) => {
   fs.unlinkSync(imagePath);
 });
 
+/**-----------------------------------------------
+ * @desc    Toggle Like
+ * @route   /api/posts/like/:id
+ * @method  PUT
+ * @access  private (only logged in user)
+ ------------------------------------------------*/
+const toggleLikeCtrl = asyncHandler(async (req, res) => {
+  const loggedInUser = req.user.id;
+  const { id: postId } = req.params;
+
+  let post = await Post.findById(postId);
+  if (!post) {
+    return res.status(404).json({ message: "Post Not Found" });
+  }
+
+  const isPostAlreadyLiked = post.likes.find(
+    (user) => user.toString() === loggedInUser
+  );
+
+  if (isPostAlreadyLiked) {
+    post = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $pull: { likes: loggedInUser },
+      },
+      { new: true }
+    );
+  } else {
+    post = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: { likes: loggedInUser },
+      },
+      { new: true }
+    );
+  }
+
+  res.status(200).json(post);
+});
+
 
   module.exports = {
     createPostCtrl,
@@ -241,5 +285,6 @@ const updatePostImageCtrl = asyncHandler(async (req, res) => {
     getCountPostsCtrl,
     deletePostsCtrl,
     updatePostsCtrl,
-    updatePostImageCtrl
+    updatePostImageCtrl,
+    toggleLikeCtrl
   }
