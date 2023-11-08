@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const {User, validateUpdateUser} = require('../models/User');
+const {Post } = require("../models/Post");
+const { Comment } = require("../models/Comment");
 const {
   cloudinaryUploadImage,
   cloudinaryRemoveImage,
@@ -99,15 +101,15 @@ const fs = require('fs');
   }
 
 //   // 2. Get all posts from DB
-//   const posts = await Post.find({ user: user._id });
+  const posts = await Post.find({ user: user._id });
 
 //   // 3. Get the public ids from the posts
-//   const publicIds = posts?.map((post) => post.image.publicId);
+  const publicIds = posts?.map((post) => post.image.publicId);
 
 //   // 4. Delete all posts image from cloudinary that belong to this user
-//   if(publicIds?.length > 0) {
-//     await cloudinaryRemoveMultipleImage(publicIds);
-//   }
+  if(publicIds?.length > 0) {
+    await cloudinaryRemoveMultipleImage(publicIds);
+  }
 
 //   // 5. Delete the profile picture from cloudinary
   if(user.profilePhoto.publicId !== null) {
@@ -115,15 +117,15 @@ const fs = require('fs');
   }
   
 //   // 6. Delete user posts & comments
-//   await Post.deleteMany({ user: user._id });
-//   await Comment.deleteMany({ user: user._id });
+   await Post.deleteMany({ user: user._id });
+   await Comment.deleteMany({ user: user._id });
 
 //   // 7. Delete the user himself
   const userDelete = await User.findByIdAndDelete(req.params.id);
 
 
 //   // 8. Send a response to the client
-  res.status(200).json({ message: "your profile has been deleted" });
+  res.status(200).json({ message: "Your Profile Has Been Deleted" });
   
   
 });

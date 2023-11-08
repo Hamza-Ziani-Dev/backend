@@ -16,6 +16,7 @@ const router = express.Router();
 router.route("/profile").get(verifyTokenAndAdmin,getAllUsersCtrl);
 
 // /api/users/profile/profile-photo-upload
+// /api/users/profile/profile-photo-upload
 router
   .route("/profile/profile-photo-upload")
   .post(verifyToken, photoUpload.single("image"), profilePhotoUploadCtrl);

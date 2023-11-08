@@ -6,7 +6,7 @@ const {
 } = require("../models/Comment");
 const { User } = require("../models/User");
 
-/**-----------------------------------------------
+/**----------------Create New Comment-------------------------------
  * @desc    Create New Comment
  * @route   /api/comments
  * @method  POST
@@ -30,7 +30,7 @@ const createCommentCtrl = asyncHandler(async (req, res) => {
   res.status(201).json(comment);
 });
 
-/**-----------------------------------------------
+/**--------------- Get All Comments --------------------------------
  * @desc    Get All Comments
  * @route   /api/comments
  * @method  GET
@@ -41,7 +41,7 @@ const getAllCommentsCtrl = asyncHandler(async (req, res) => {
   res.status(200).json(comments);
 });
 
-/**-----------------------------------------------
+/**-------------- Delete Comment ---------------------------------
  * @desc    Delete Comment
  * @route   /api/comments/:id
  * @method  DELETE
@@ -61,7 +61,7 @@ const deleteCommentCtrl = asyncHandler(async (req, res) => {
   }
 });
 
-/**-----------------------------------------------
+/**----------------Update Comment-------------------------------
  * @desc    Update Comment
  * @route   /api/comments/:id
  * @method  PUT

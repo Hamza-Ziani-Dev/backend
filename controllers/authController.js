@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const {User, validateRegisterUser,validateLoginUser} = require('../models/User');
 
 
-/**-----------------------------------------------
+/**------------------Register New User -----------------------------
  * @desc    Register New User
  * @route   /api/auth/register
  * @method  POST
@@ -39,7 +39,7 @@ const registerController = asyncHandler(async (req,res)=>{
 })
 
 
-/**-----------------------------------------------
+/**-----------------Login User ------------------------------
  * @desc    Login User
  * @route   /api/auth/login
  * @method  POST

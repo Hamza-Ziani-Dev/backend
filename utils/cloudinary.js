@@ -8,6 +8,7 @@ cloudinary.config({
 });
 
 // Cloudinary Upload Image
+// Cloudinary Upload Image
 const cloudinaryUploadImage = async (fileToUpload) => {
   try {
     const data = await cloudinary.uploader.upload(fileToUpload, {

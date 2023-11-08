@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-// /api/comments
+// /api/comments:
 router.route("/")
 .get(verifyTokenAndAdmin,getAllCommentsCtrl)
 .post(verifyToken,createCommentCtrl)

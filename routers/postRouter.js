@@ -14,7 +14,7 @@ const {
 const router = express.Router();
 
 
-// /api/posts
+// /api/posts :
 router.route("/")
 .get(getAllPostsCtrl)
 .post(verifyToken,photoUpload.single("image"),createPostCtrl);

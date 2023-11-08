@@ -126,13 +126,11 @@ const getAllPostsCtrl = asyncHandler(async (req, res) => {
     await cloudinaryRemoveImage(post.image.publicId);
 
     // delete All Comments:
-    await Comment.deleteMany({post_id : req.params.id });
-
-
+    await Comment.deleteMany({postId : post._id});
 
   res.status(200).json({
     postId:post._id,
-    message: "Posts Hs Been Deleted Success!"
+    message: "Posts Has Been Deleted Success!"
   });
   }else{
     res.status(403).json({
